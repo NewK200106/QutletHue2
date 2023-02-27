@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIntValidator,QDoubleValidator,QFont
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
+from PyQt5 import QtSerialPort
 import serial
 stral=""
 class Ui_Form(object):
@@ -164,10 +165,15 @@ class Ui_Form(object):
         self.baudRates.setCurrentText('115200')
         self.baudRates.setMinimumHeight(30)
         self.baudRates.setGeometry(456,100,75,25)
+        self.serial = QtSerialPort.QSerialPort(
+            self.portNames.currentText(),
+            baudRate=self.baudRates.currentText()
+        )
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
         ###Ograniczenia przy wporwadzaniu danych oraz połaczenie przycisku z metodą.
         self.pushButton.clicked.connect(self.clickMethod)
+        self.pushButton.clicked.connect(self.send)
         self.lineEdit.setValidator(QIntValidator(0,255))
         self.lineEdit.setMaxLength(3)
         self.lineEdit_2.setValidator(QIntValidator(0,255))
@@ -180,6 +186,8 @@ class Ui_Form(object):
         self.lineEdit_5.setMaxLength(3)
         self.lineEdit_6.setValidator(QIntValidator(0,255))
         self.lineEdit_6.setMaxLength(3)
+    def send(self):
+        self.serial.write(stral.encode())
     def clickMethod(self):
         
         stral=self.lineEdit.text()+","+self.lineEdit_2.text()+","+self.lineEdit_3.text()+","+self.lineEdit_4.text()+","+self.lineEdit_5.text()+","+self.lineEdit_6.text()
