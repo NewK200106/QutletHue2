@@ -169,6 +169,8 @@ class Ui_Form(object):
             self.portNames.currentText(),
             baudRate=self.baudRates.currentText()
         )
+        ###print(self.portNames.currentText())
+        
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
         ###Ograniczenia przy wporwadzaniu danych oraz połaczenie przycisku z metodą.
@@ -192,6 +194,8 @@ class Ui_Form(object):
         
         stral=self.lineEdit.text()+","+self.lineEdit_2.text()+","+self.lineEdit_3.text()+","+self.lineEdit_4.text()+","+self.lineEdit_5.text()+","+self.lineEdit_6.text()
         print(stral)
+        ###Pokaż jaki baudrate
+        print(self.baudRates.currentText())
         
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -272,6 +276,7 @@ if __name__ == "__main__":
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
     ui.setupUi(Form)
+    
     Form.show()
     
     sys.exit(app.exec_())
