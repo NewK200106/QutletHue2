@@ -11,7 +11,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIntValidator,QDoubleValidator,QFont
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
-
+import serial
+stral=""
 class Ui_Form(object):
     def setupUi(self, Form):
        ###TU jest dobre nie ruszać
@@ -180,7 +181,10 @@ class Ui_Form(object):
         self.lineEdit_6.setValidator(QIntValidator(0,255))
         self.lineEdit_6.setMaxLength(3)
     def clickMethod(self):
-        print(self.lineEdit.text()+","+self.lineEdit_2.text()+","+self.lineEdit_3.text()+","+self.lineEdit_4.text()+","+self.lineEdit_5.text()+","+self.lineEdit_6.text())  
+        
+        stral=self.lineEdit.text()+","+self.lineEdit_2.text()+","+self.lineEdit_3.text()+","+self.lineEdit_4.text()+","+self.lineEdit_5.text()+","+self.lineEdit_6.text()
+        print(stral)
+        
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "QutletHue"))
