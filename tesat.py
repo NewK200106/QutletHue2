@@ -12,7 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIntValidator,QDoubleValidator,QFont
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 from PyQt5 import QtSerialPort
-import serial
+from PyQt5.QtCore import QIODevice
+import serial,time
 stral=""
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -163,6 +164,7 @@ class Ui_Form(object):
             '31250', '38400', '51200', '56000', '57600', '76800', '115200', '128000', '230400', '256000', '921600'
         ])
         self.baudRates.setCurrentText('115200')
+        self.portNames.setCurrentText('COM3')
         self.baudRates.setMinimumHeight(30)
         self.baudRates.setGeometry(456,100,75,25)
         self.serial = QtSerialPort.QSerialPort(
@@ -175,7 +177,7 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
         ###Ograniczenia przy wporwadzaniu danych oraz połaczenie przycisku z metodą.
         self.pushButton.clicked.connect(self.clickMethod)
-        self.pushButton.clicked.connect(self.send)
+        ##self.pushButton.clicked.connect(self.send)
         self.lineEdit.setValidator(QIntValidator(0,255))
         self.lineEdit.setMaxLength(3)
         self.lineEdit_2.setValidator(QIntValidator(0,255))
@@ -188,14 +190,30 @@ class Ui_Form(object):
         self.lineEdit_5.setMaxLength(3)
         self.lineEdit_6.setValidator(QIntValidator(0,255))
         self.lineEdit_6.setMaxLength(3)
-    def send(self):
-        self.serial.write(stral.encode())
+   
+       
+            
     def clickMethod(self):
         
-        stral=self.lineEdit.text()+","+self.lineEdit_2.text()+","+self.lineEdit_3.text()+","+self.lineEdit_4.text()+","+self.lineEdit_5.text()+","+self.lineEdit_6.text()
+        stral=self.lineEdit.text()+','+self.lineEdit_2.text()+','+self.lineEdit_3.text()+','+self.lineEdit_4.text()+','+self.lineEdit_5.text()+','+self.lineEdit_6.text()
         print(stral)
+        str_1_encoded = bytes(stral,'UTF-8')
         ###Pokaż jaki baudrate
         print(self.baudRates.currentText())
+        stm_device_name=self.portNames.currentText()
+        baudrate=self.baudRates.currentText()
+        stm = serial.Serial(stm_device_name, baudrate)
+        ##Po kliknięciu wyślij Click po serialu do UARTA W STMie
+        stm.write(b'Click')    
+        time.sleep(0.3)
+        stm.close()
+       ### if self.serial.open(QIODevice.ReadWrite):
+       ###     print("Port otwarto!")
+            
+       ###     self.serial.write(stral.encode())
+       ###     self.serial.close()
+       ### else:
+        ###    print("Nie udało się połączyć!")
         
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
