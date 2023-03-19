@@ -13,7 +13,7 @@ from PyQt5.QtGui import QIntValidator,QDoubleValidator,QFont
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 from PyQt5 import QtSerialPort
 from PyQt5.QtCore import QIODevice
-import serial,time
+import serial,time, struct
 stral=""
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -195,16 +195,17 @@ class Ui_Form(object):
             
     def clickMethod(self):
         
-        stral=self.lineEdit.text()+','+self.lineEdit_2.text()+','+self.lineEdit_3.text()+','+self.lineEdit_4.text()+','+self.lineEdit_5.text()+','+self.lineEdit_6.text()
+        led1=[int(self.lineEdit.text()),int(self.lineEdit_2.text()),int(self.lineEdit_3.text())]
+        led2=[int(self.lineEdit_4.text()),int(self.lineEdit_5.text()),int(self.lineEdit_6.text())]
+        stral: bytes = struct.pack("BBBBBB", *(led1 + led2))
         print(stral)
-        str_1_encoded = bytes(stral,'UTF-8')
-        ###Pokaż jaki baudrate
+         ###Pokaż jaki baudrate
         print(self.baudRates.currentText())
         stm_device_name=self.portNames.currentText()
         baudrate=self.baudRates.currentText()
         stm = serial.Serial(stm_device_name, baudrate)
         ##Po kliknięciu wyślij Click po serialu do UARTA W STMie
-        stm.write(b'Click')    
+        stm.write(stral)    
         time.sleep(0.3)
         stm.close()
        ### if self.serial.open(QIODevice.ReadWrite):
