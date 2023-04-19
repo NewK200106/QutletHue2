@@ -178,6 +178,7 @@ class Ui_Form(object):
         ###Ograniczenia przy wporwadzaniu danych oraz połaczenie przycisku z metodą.
         self.pushButton.clicked.connect(self.clickMethod)
         ##self.pushButton.clicked.connect(self.send)
+        
         self.lineEdit.setValidator(QIntValidator(0,255))
         self.lineEdit.setMaxLength(3)
         self.lineEdit_2.setValidator(QIntValidator(0,255))
@@ -191,13 +192,15 @@ class Ui_Form(object):
         self.lineEdit_6.setValidator(QIntValidator(0,255))
         self.lineEdit_6.setMaxLength(3)
    
-       
+   
             
     def clickMethod(self):
         
         led1=[int(self.lineEdit.text()),int(self.lineEdit_2.text()),int(self.lineEdit_3.text())]
         led2=[int(self.lineEdit_4.text()),int(self.lineEdit_5.text()),int(self.lineEdit_6.text())]
+       
         stral: bytes = struct.pack("BBBBBB", *(led1 + led2))
+       
         print(stral)
          ###Pokaż jaki baudrate
         print(self.baudRates.currentText())
@@ -206,16 +209,9 @@ class Ui_Form(object):
         stm = serial.Serial(stm_device_name, baudrate)
         ##Po kliknięciu wyślij Click po serialu do UARTA W STMie
         stm.write(stral)    
-        time.sleep(0.3)
+        time.sleep(0.5)
+
         stm.close()
-       ### if self.serial.open(QIODevice.ReadWrite):
-       ###     print("Port otwarto!")
-            
-       ###     self.serial.write(stral.encode())
-       ###     self.serial.close()
-       ### else:
-        ###    print("Nie udało się połączyć!")
-        
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "QutletHue"))
