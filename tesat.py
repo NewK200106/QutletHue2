@@ -206,7 +206,7 @@ class Ui_Form(object):
         stm = serial.Serial(stm_device_name, baudrate)
         ##Po kliknięciu wyślij Click po serialu do UARTA W STMie
         stm.write(stral)    
-        time.sleep(0.3)
+        time.sleep(0.5)
         stm.close()
        ### if self.serial.open(QIODevice.ReadWrite):
        ###     print("Port otwarto!")
